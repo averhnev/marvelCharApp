@@ -1,0 +1,14 @@
+@import '../../style/variables.scss';
+
+.p404 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.react-link {
+    display: inline-block;
+    color: $main-color;
+    padding: 8px;
+    font-size: 28px;
+}
