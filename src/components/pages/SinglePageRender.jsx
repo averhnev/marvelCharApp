@@ -2,12 +2,14 @@ import { useNavigate } from "react-router-dom"
 import './singlePageStyle.scss';
 
 const SinglePageRender = (props) => {
-        const {description, thumbnail} = props
+    
         const pageCount = props?.SinglePage,
                 language = props?.language,
                 price = props?.price,
                 title = props?.title,
-                name = props?.name
+                name = props?.name,
+                description = props?.description,
+                thumbnail = props?.thumbnail
 
         const navigate = useNavigate()
 

@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import {MainPage, ComicsPage, Page404} from "../pages";
+import {MainPage, ComicsPage, SinglePageLogic, Page404} from "../pages";
 import AppHeader from "../appHeader/AppHeader";
-import SinglePageLogic from "../pages/SinglePageLogic";
 
 const App = () => {
     return (
