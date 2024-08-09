@@ -1,6 +1,6 @@
 @import '../../style/variables.scss';
 
-.single-comic {
+.single {
     margin-top: 50px;
     display: grid;
     grid-template-columns: 293px 550px auto;
@@ -27,13 +27,13 @@
         color: $main-color;
         margin-top: 25px;
     }
-    &__back {
-        justify-self: end;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 24px;
-        &:hover {
-            color: $main-color;
-        }
-    }
+    // &__back {
+    //     justify-self: end;
+    //     font-weight: bold;
+    //     font-size: 18px;
+    //     line-height: 24px;
+    //     &:hover {
+    //         color: $main-color;
+    //     }
+    // }
 }
