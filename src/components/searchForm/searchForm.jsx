@@ -32,7 +32,7 @@ const SearchForm = () => {
                         </Link>
                     </div> :
                     <div className="form__error">
-                        The character was not found. Check thename and try again
+                        The character was not found. Check the name and try again
                     </div>
 
     return (

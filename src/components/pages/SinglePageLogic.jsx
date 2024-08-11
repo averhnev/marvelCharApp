@@ -33,7 +33,7 @@ const SinglePageLogic = ({dataType}) => {
 
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading ? <Spinner/> : null;
-    const content = !(loading || error || !data) ? <SinglePageRender {...data}/> : null
+    const content = !(loading || error || !data) ? <SinglePageRender {...data} dataType={dataType}/> : null
 
     return (
         <>
