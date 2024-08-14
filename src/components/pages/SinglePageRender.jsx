@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom"
 import './singlePageStyle.scss';
 import { Helmet } from "react-helmet";
 
-const SinglePageRender = (props) => {
+const SinglePageRender = ({data}) => {
 
-        const pageCount = props?.SinglePage,
-                language = props?.language,
-                price = props?.price,
-                title = props?.title,
-                name = props?.name
-        const { dataType, description, thumbnail } = props
+        const pageCount = data?.SinglePage,
+                language = data?.language,
+                price = data?.price,
+                title = data?.title,
+                name = data?.name
+        const { dataType, description, thumbnail } = data
 
         const navigate = useNavigate()
 
@@ -22,7 +22,7 @@ const SinglePageRender = (props) => {
                     />
                     <title>{dataType === "comic" ? title : name}</title>
                 </Helmet>
-                <img src={thumbnail} alt={title} className="single__img"/>
+                <img src={thumbnail} alt={title} className={dataType === 'comic' ? "single__img-comic" : "single__img-char"}/>
                 <div className="single__info">
                     <h2 className="single__name">{dataType === "comic" ? title : name}</h2>
                     <p className="single__descr">{description}</p>

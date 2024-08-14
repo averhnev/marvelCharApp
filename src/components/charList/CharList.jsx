@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
@@ -8,6 +8,22 @@ import useMarvelService from '../../services/MarvelService';
 
 import './charList.scss';
 
+const setContent = (process, Component, newItemLoading) => {
+    // eslint-disable-next-line default-case
+    switch (process) {
+        case 'waiting':
+            return <Spinner/>
+        case 'loading':
+            return (newItemLoading ? <Component/> : <Spinner/>)
+        case 'confirmed':
+            return <Component/>
+        case 'error':
+            return <ErrorMessage/>
+        default:
+            throw new Error('Unexpected process state')
+    }
+}
+
 const CharList = (props) => {
 
     const [charList, setCharList] = useState([])
@@ -15,7 +31,7 @@ const CharList = (props) => {
     const [offset, setOffset] = useState(210)
     const [charEnded, setCharEnded] = useState(false)
 
-    const {loading, error, getAllCharacters} = useMarvelService()
+    const {getAllCharacters, process, setProcess} = useMarvelService()
 
     useEffect(() => {
         onRequest(offset, true)
@@ -25,12 +41,13 @@ const CharList = (props) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true)
         getAllCharacters(offset)
             .then(onCharListLoaded)
+            .then(() => setProcess('confirmed'))
     }
 
     const onCharListLoaded = async (newCharList) => {
-        let ended = false;
+        let ended = false
         if (newCharList.length < 9) {
-            ended = true;
+            ended = true
         }
 
         setCharList([...charList, ...newCharList])
@@ -42,16 +59,16 @@ const CharList = (props) => {
     const itemRefs = useRef([])
 
     const focusOnItem = (id) => {
-        itemRefs.current.forEach(item => item.classList.remove('char__item_selected'));
-        itemRefs.current[id].classList.add('char__item_selected');
-        itemRefs.current[id].focus();
+        itemRefs.current.forEach(item => item.classList.remove('char__item_selected'))
+        itemRefs.current[id].classList.add('char__item_selected')
+        itemRefs.current[id].focus()
     }
 
     function renderItems(arr) {
         const items =  arr.map((item) => {
-            let imgStyle = {'objectFit' : 'cover'};
+            let imgStyle = {'objectFit' : 'cover'}
             if (item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
-                imgStyle = {'objectFit' : 'unset'};
+                imgStyle = {'objectFit' : 'unset'}
             }
             
             return (
@@ -61,13 +78,13 @@ const CharList = (props) => {
                         tabIndex={0}
                         ref={el => itemRefs.current[item.id] = el}
                         onClick={() => {
-                            props.onCharSelected(item.id);
+                            props.onCharSelected(item.id)
                             focusOnItem(item.id);
                         }}
                         onKeyDown={(e) => {
                             if (e.key === ' ' || e.key === "Enter") {
-                                props.onCharSelected(item.id);
-                                focusOnItem(item.id);
+                                props.onCharSelected(item.id)
+                                focusOnItem(item.id)
                             }
                         }}>
                             <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
@@ -86,16 +103,13 @@ const CharList = (props) => {
         )
     }
     
-    const items = renderItems(charList);
-
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading && !newItemLoading ? <Spinner/> : null;
+    const elements = useMemo(() => {
+        return setContent(process, () => renderItems(charList), newItemLoading)
+    }, [process]) // eslint-disable-line
 
     return (
         <div className="char__list">
-            {errorMessage}
-            {spinner}
-            {items}
+            {elements}
             <button 
                 className="button button__main button__long"
                 disabled={newItemLoading}

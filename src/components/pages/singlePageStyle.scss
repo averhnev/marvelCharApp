@@ -7,8 +7,14 @@
     column-gap: 50px;
     align-items: start;
     &__img {
-        width: 293px;
-        height: 450px;
+        &-char {
+            width: 293px;
+            height: 293px;
+        }
+        &-comic {
+            width: 293px;
+            height: 450px;
+        }
     }
     &__name {
         font-weight: bold;
